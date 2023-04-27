@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-
+using UnityEngine.Events;
 public class InHomePoint : MonoBehaviour
 {
+    public event UnityAction HouseEntered;
+    public event UnityAction HouseAbonded;
+    
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private Color _reachedColor;
     [SerializeField] Animator _animator;
@@ -17,13 +16,8 @@ public class InHomePoint : MonoBehaviour
         if (collision.TryGetComponent<Player>(out Player player))
         {
             _animator.SetBool(IsEnter, true);
-            
+            HouseEntered?.Invoke();
         }
-    }
-
-    private void OnTriggerStay()
-    {
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -31,6 +25,7 @@ public class InHomePoint : MonoBehaviour
         if (collision.TryGetComponent<Player>(out Player player))
         {
             _animator.SetBool(IsEnter, false);
+            HouseAbonded?.Invoke();
         }
     }
 }

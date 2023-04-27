@@ -34,9 +34,10 @@ public class SignalizationWithSpeed : MonoBehaviour
     private IEnumerator ChangeVolume(float target)
     {
         while (_signalization.volume != target)
+        // while (Mathf.Abs(_signalization.volume - target) > float.Epsilon)
         {
             _signalization.volume = Mathf.MoveTowards(_signalization.volume, target, _speed * Time.deltaTime);
-            
+
             yield return null;
         }
     }
