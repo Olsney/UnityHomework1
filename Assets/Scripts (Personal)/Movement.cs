@@ -16,19 +16,28 @@ public class Movement : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
-    
+
     private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+            Jump();
+    }
+
+    private void FixedUpdate()
     {
         float movement = Input.GetAxis("Horizontal");
         bool isWalkingBack = movement < 0;
 
         transform.position += _speed * Time.deltaTime * new Vector3(movement, 0, 0);
 
+        _spriteRenderer.flipX = isWalkingBack;
+    }
+
+    private void Jump()
+    {
         if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
             _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
         }
-
-        _spriteRenderer.flipX = isWalkingBack;
     }
 }
