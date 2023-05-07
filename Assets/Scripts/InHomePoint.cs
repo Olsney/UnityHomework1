@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+
 public class InHomePoint : MonoBehaviour
 {
     public event UnityAction HouseEntered;

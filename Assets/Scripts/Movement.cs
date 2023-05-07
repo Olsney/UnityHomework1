@@ -4,12 +4,14 @@ using UnityEngine;
 [RequireComponent((typeof(SpriteRenderer)))]
 public class Movement : MonoBehaviour
 {
-    [SerializeField] private float _speed = 3f;
+    [SerializeField] private float _speed = 8f;
     [SerializeField] private float _jumpForce = 5f;
+    [SerializeField] private GroundChecker _groundChecker;
 
     private Rigidbody2D _rigidbody;
-    private bool _isGrounded => Mathf.Abs(_rigidbody.velocity.y) < 0.05f;
+    private bool _isGrounded;
     private SpriteRenderer _spriteRenderer;
+    private float _movement;
 
     private void Awake()
     {
@@ -19,25 +21,29 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
+        _isGrounded = _groundChecker.IsGrounded;
+
         if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
             Jump();
+
+        _movement = Input.GetAxis("Horizontal");
     }
 
     private void FixedUpdate()
     {
-        float movement = Input.GetAxis("Horizontal");
-        bool isWalkingBack = movement < 0;
+        bool isWalkingBack = _movement < 0;
 
-        transform.position += _speed * Time.deltaTime * new Vector3(movement, 0, 0);
-
+        Move(new Vector3(_movement, 0, 0));
         _spriteRenderer.flipX = isWalkingBack;
+    }
+
+    private void Move(Vector3 direction)
+    {
+        _rigidbody.velocity = direction * _speed;
     }
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
-        {
-            _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-        }
+        _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
     }
 }

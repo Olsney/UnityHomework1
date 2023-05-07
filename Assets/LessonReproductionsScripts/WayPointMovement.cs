@@ -1,41 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class WayPointMovement : MonoBehaviour
+namespace LessonReproductionsScripts
 {
-    [SerializeField] private Transform _path;
-    [SerializeField] private float _speed;
-
-    private Transform[] _points;
-    private int _currentPoint;
-
-    private void Start()
+    public class WayPointMovement : MonoBehaviour
     {
-        _points = new Transform[_path.childCount];
+        [SerializeField] private Transform _path;
+        [SerializeField] private float _speed;
 
-        for (int i = 0; i < _path.childCount; i++)
+        private Transform[] _points;
+        private int _currentPoint;
+
+        private void Start()
         {
-            _points[i] = _path.GetChild(i);
-        }
-    }
+            _points = new Transform[_path.childCount];
 
-    private void Update()
-    {
-        Transform target = _points[_currentPoint];
-
-        //var direction = (target.position - transform.position).normalized;
-
-        transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
-
-        if (transform.position == target.position)
-        {
-            _currentPoint++;
-
-            if (_currentPoint >= _points.Length)
+            for (int i = 0; i < _path.childCount; i++)
             {
-                _currentPoint = 0;
+                _points[i] = _path.GetChild(i);
+            }
+        }
+
+        private void Update()
+        {
+            Transform target = _points[_currentPoint];
+        
+            transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
+
+            if (transform.position == target.position)
+            {
+                _currentPoint++;
+
+                if (_currentPoint >= _points.Length)
+                {
+                    _currentPoint = 0;
+                }
             }
         }
     }

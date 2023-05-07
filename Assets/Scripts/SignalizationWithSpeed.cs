@@ -5,10 +5,23 @@ public class SignalizationWithSpeed : MonoBehaviour
 {
     [SerializeField] private AudioSource _signalization;
     [SerializeField] private float _speed;
-
+    [SerializeField] private InHomePoint _inHomePoint;
+    
     private Coroutine _volumeChangeJob;
     private float _targetVolume;
 
+    public void OnEnable()
+    {
+        _inHomePoint.HouseEntered += IncreaseVolume;
+        _inHomePoint.HouseAbonded += DecreaseVolume;
+    }
+
+    public void OnDisable()
+    {
+        _inHomePoint.HouseEntered -= IncreaseVolume;
+        _inHomePoint.HouseAbonded -= DecreaseVolume;
+    }
+    
     public void Start()
     {
         _signalization.volume = 0;
@@ -34,7 +47,6 @@ public class SignalizationWithSpeed : MonoBehaviour
     private IEnumerator ChangeVolume(float target)
     {
         while (_signalization.volume != target)
-        // while (Mathf.Abs(_signalization.volume - target) > float.Epsilon)
         {
             _signalization.volume = Mathf.MoveTowards(_signalization.volume, target, _speed * Time.deltaTime);
 
