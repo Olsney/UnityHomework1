@@ -33,17 +33,19 @@ public class AdvancedMovement : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && _groundChecker.IsGrounded)
-        {
-            Jump();
-        }
-
-        _moveDirection = new Vector2(Input.GetAxis("Horizontal") * _speed, _moveDirection.y);
-        _rigidbody2D.velocity = _moveDirection;
-    }
-
+    //РАСКОММЕНТИРОВАТЬ!!!
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Space) && _groundChecker.IsGrounded)
+    //     {
+    //         Jump();
+    //     }
+    //
+    //     _moveDirection = new Vector2(Input.GetAxis("Horizontal") * _speed, _moveDirection.y);
+    //     _rigidbody2D.velocity = _moveDirection;
+    // }
+    //ПО ЭТОТ МОМЕНТ!
+    
     // private void Move(Vector2 direction)
     // {
     //     _rigidbody2D.velocity = _speed * Time.deltaTime * direction;
